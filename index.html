@@ -1,23 +1,773 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Home</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <!--
-      Need a visual blank slate?
-      Remove all code in `styles.css`!
-    -->
-    <link rel="stylesheet" href="styles.css" />
-    <script type="module" src="script.js"></script>
-  </head>
-  <body>
-    <nav>
-      <a href="/" aria-current="page">Home</a>
-      <a href="/page2.html">Other page</a>
-    </nav>
-    <main>
-      <h1>Home page</h1>
-    </main>
-  </body>
-</html>
+
+  <style>
+    /* 다채롭고 부드러운 색감, 명확한 시각적 계층 구조 적용 */
+    :root {
+      --primary-color: #3b5998; /* 신뢰감을 주는 차분한 딥 네이비 블루 */
+      --secondary-color: #5c768d; /* 부드러운 스틸 블루 */
+      --accent-color: #d97706; /* 경고 및 포인트 컬러 (부드러운 앰버) */
+      --success-color: #059669; /* 긍정적인 신호 및 결과용 에메랄드 그린 */
+      --text-main: #2d3748; /* 가독성이 높은 짙은 차분한 그레이 */
+      --text-muted: #718096; /* 보조 설명용 미디엄 그레이 */
+      --bg-main: #f7f9fa; /* 포근하고 깨끗한 웜 그레이 톤 배경 */
+      --bg-card: #ffffff; /* 하이라이트 카드 및 컨테이너 배경 */
+      --border-color: #e2e8f0; /* 자연스러운 경계선 컬러 */
+      --highlight-bg: #f0f4f8; /* 강조 구역용 라이트 블루그레이 */
+    }
+
+    body {
+      font-family: 'Noto Sans KR', 'Pretendard', sans-serif;
+      color: var(--text-main);
+      line-height: 1.85;
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-main);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 45px;
+      background-color: var(--bg-card);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+    }
+
+    /* 헤더 및 타이틀 구조 */
+    h1 {
+      font-size: 2.3em;
+      color: var(--primary-color);
+      border-bottom: 3px solid var(--primary-color);
+      padding-bottom: 20px;
+      text-align: center;
+      margin-bottom: 35px;
+      font-weight: 700;
+      letter-spacing: -1px;
+    }
+
+    h2 {
+      font-size: 1.65em;
+      color: var(--primary-color);
+      margin-top: 2.5em;
+      border-left: 6px solid var(--secondary-color);
+      padding-left: 18px;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+    }
+
+    h3 {
+      font-size: 1.3em;
+      color: var(--secondary-color);
+      margin-top: 1.8em;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-color);
+      font-weight: 600;
+    }
+
+    /* 본문 텍스트 및 단락 스타일 */
+    p {
+      margin-bottom: 1.6em;
+      text-align: justify;
+      font-size: 1.05em;
+      color: #334155;
+    }
+
+    ul, ol {
+      margin-bottom: 1.8em;
+      padding-left: 22px;
+    }
+
+    li {
+      margin-bottom: 0.9em;
+      font-size: 1.02em;
+      color: #475569;
+    }
+
+    /* 강조 및 정보 박스 */
+    .highlight-box {
+      background-color: var(--highlight-bg);
+      padding: 25px;
+      border-radius: 10px;
+      border-left: 5px solid var(--primary-color);
+      margin: 25px 0;
+      font-size: 1em;
+      color: #1e293b;
+    }
+
+    .alert-box {
+      background-color: #fffbeb;
+      padding: 25px;
+      border-radius: 10px;
+      border-left: 5px solid var(--accent-color);
+      margin: 25px 0;
+      font-size: 1em;
+      color: #78350f;
+    }
+
+    /* 테이블 스타일 */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 30px 0;
+      font-size: 0.95em;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    }
+
+    table th, table td {
+      padding: 14px 18px;
+      text-align: left;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    table th {
+      background-color: #f1f5f9;
+      color: var(--primary-color);
+      font-weight: 700;
+    }
+
+    table tr:hover {
+      background-color: #f8fafc;
+    }
+
+    /* 사용자 입력란 및 체류시간 확보용 다중 계산기 폼 */
+    .form-section {
+      background-color: #f8fafc;
+      padding: 35px;
+      border-radius: 12px;
+      margin: 35px 0;
+      border: 1px solid var(--border-color);
+    }
+
+    .form-group {
+      margin-bottom: 22px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: 600;
+      color: var(--text-main);
+      font-size: 1em;
+    }
+
+    .form-group input[type="number"], .form-group select {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 1em;
+      box-sizing: border-box;
+      background-color: #ffffff;
+      color: var(--text-main);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-group input[type="number"]:focus, .form-group select:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(59, 89, 152, 0.1);
+      outline: none;
+    }
+
+    .checkbox-group {
+      margin-bottom: 15px;
+    }
+
+    .checkbox-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .checkbox-item input[type="checkbox"] {
+      margin-right: 12px;
+      margin-top: 6px;
+      transform: scale(1.1);
+    }
+
+    .checkbox-item label {
+      font-size: 0.98em;
+      color: #475569;
+      line-height: 1.5;
+      cursor: pointer;
+    }
+
+    .cta-button {
+      display: inline-block;
+      width: 100%;
+      padding: 15px;
+      background-color: var(--primary-color);
+      color: #ffffff;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 1.1em;
+      text-align: center;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      box-sizing: border-box;
+    }
+
+    .cta-button:hover {
+      background-color: #2d4373;
+    }
+
+    .result-box {
+      margin-top: 25px;
+      padding: 20px;
+      background-color: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      display: none;
+    }
+
+    /* 시각화 그래프 영역 */
+    .graph-container {
+      margin: 30px 0;
+      padding: 25px;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      background-color: #ffffff;
+    }
+
+    .graph-bar-row {
+      margin-bottom: 18px;
+    }
+
+    .graph-label {
+      font-size: 0.92em;
+      color: #475569;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .graph-bar-bg {
+      width: 100%;
+      height: 22px;
+      background-color: #f1f5f9;
+      border-radius: 11px;
+      overflow: hidden;
+    }
+
+    .graph-bar-fill {
+      height: 100%;
+      background-color: var(--secondary-color);
+      border-radius: 11px;
+      transition: width 1s ease-in-out;
+    }
+
+    /* 내비게이션 링크 (목차) */
+    .nav-links {
+      margin: 30px 0;
+      padding: 20px;
+      background-color: #f1f5f9;
+      border-radius: 10px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+    }
+
+    .nav-links a {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95em;
+      padding: 8px;
+      border-radius: 6px;
+      transition: background-color 0.2s, color 0.2s;
+      text-align: center;
+      background-color: #ffffff;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    }
+
+    .nav-links a:hover {
+      background-color: var(--primary-color);
+      color: #ffffff;
+    }
+
+    /* 외부 링크 영역 */
+    .external-links {
+      margin-top: 45px;
+      border-top: 1px solid var(--border-color);
+      padding-top: 30px;
+    }
+
+    .external-links p {
+      font-size: 0.95em;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 12px;
+    }
+
+    .external-links a {
+      color: #64748b;
+      text-decoration: none;
+      margin-right: 20px;
+      font-size: 0.9em;
+      display: inline-block;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #cbd5e1;
+    }
+
+    .external-links a:hover {
+      color: var(--primary-color);
+      border-bottom-color: var(--primary-color);
+    }
+
+    .json-ld-placeholder {
+      display: none;
+    }
+  </style>
+
+  <!-- JSON-LD Structured Data for Naver Snippet & Search Agent Optimization -->
+  <script type="application/ld+json" class="json-ld-placeholder">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "자영업자 개인회생의 신청 자격 조건은 어떻게 되나요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "자영업자 개인회생을 신청하려면 총채무액이 무담보채무 10억 원, 담보채무 15억 원 이하여야 하며, 재산의 합계액보다 채무가 더 많아야 합니다. 또한, 향후 지속적이고 반복적인 소득(영업소득)이 발생할 가능성이 입증되어야 합니다. 최근 5년 이내에 개인회생이나 파산 절차를 통해 면책을 받은 이력이 없어야 신청이 가능합니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "영업소득자의 변제금 및 예상 탕감률은 어떻게 계산하나요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "영업소득자의 예상 변제금은 월 평균 영업소득에서 가구원수별 최저생계비를 제외한 가용소득으로 결정됩니다. 다만 개인회생 절차의 기본 원칙인 '청산가치 보장의 원칙'에 따라, 36개월에서 최대 60개월 동안 납부하는 총 변제금의 합계는 현재 보유한 총 재산 가치(청산가치)보다 높아야 합니다. 탕감률은 총 채무액 대비 변제 금액을 제외한 나머지 금액의 비율로 산정됩니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "개인회생 신청 시 발생하는 총비용과 변호사 수임료 가격은 얼마인가요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "법원에 직접 납부하는 공과금인 인지대(약 3만 원), 송달료(채권자 수에 따라 변동, 평균 15만 원 내외), 회생위원 보수 및 외부회생위원 선임 비용(약 15만 원~30만 원)이 발생합니다. 법률 대행 전문 업체 또는 법률사무소를 통해 진행하는 경우 수임료 컨설팅 비용은 평균적으로 150만 원에서 250만 원 수준으로 책정되며, 난이도나 채권자 수에 따라 차이가 발생할 수 있습니다."
+          }
+        }
+      ]
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h1>2026년 자영업자 개인회생 신청자격, 비용 및 예상 변제금 계산 방법 가이드</h1>
+
+    <p>경제적 불황과 고금리가 장기화됨에 따라 골목상권의 자영업자 및 소상공인들이 겪는 경영상의 고통이 가중되고 있습니다. 일시적인 자금난을 극복하지 못하고 다중채무의 늪에 빠진 영업소득자들을 구제하기 위해 국가가 마련한 공적 채무조정 제도가 바로 자영업자 개인회생 제도입니다. 이 제도는 파산이라는 파국에 이르기 전에 소득을 바탕으로 채무를 재조정하여 사업을 안정적으로 지속할 수 있도록 돕는 역할을 합니다.</p>
+    
+    <p>본 가이드는 2026년 최신 개정 실무 준칙과 사법부 법원 동향을 반영하여, 자영업자가 직면하는 특수한 상황에 맞춘 개인회생의 자격 요건, 월 변제금 및 예상 탕감률 계산법, 신청 절차에서 발생하는 법적 비용과 유의점을 전문적으로 해설합니다. 이를 통해 독자들이 객관적이고 정확한 법률 정보를 취득하고 가장 합리적인 채무 해결 대안을 마련할 수 있도록 구성하였습니다.</p>
+
+    <!-- 목차 내비게이션 -->
+    <div class="nav-links">
+      <a href="#section1">1. 자영업자 개인회생 기본 개념</a>
+      <a href="#section2">2. 영업소득자 신청자격 및 요건</a>
+      <a href="#section3">3. 급여소득자와의 실무 차이점</a>
+      <a href="#section4">4. 전국 법원별 심사 동향</a>
+      <a href="#section5">5. 예상 변제금 및 청산가치 계산</a>
+      <a href="#section6">6. 자격 자가진단 및 계산기</a>
+      <a href="#section7">7. 제도의 장점과 단점 비교</a>
+      <a href="#section8">8. 진행 비용 및 대리인 선정 기준</a>
+      <a href="#section9">9. 실시간 온라인 커뮤니티 여론</a>
+      <a href="#section10">10. 자주 묻는 질문 FAQ</a>
+    </div>
+
+    <h2 id="section1">1. 자영업자 개인회생의 기본 개념과 2026년 제도적 흐름</h2>
+    <p>개인회생 제도는 무담보채무 10억 원, 담보채무 15억 원 이하의 채무를 진 개인채무자가 장래에 지속적인 수입을 얻을 가능성이 있는 경우, 3년에서 5년간 일정한 금액을 성실히 변제하면 나머지 채무를 면제받을 수 있는 사법부 관할 제도입니다. 특히 상가 임대료 상승, 원자재 가격 급등, 고용 부담 증가 등으로 인해 원리금 상환 독촉에 시달리는 소상공인들에게 재기의 발판을 제공합니다.</p>
+    
+    <p>2026년 현재 서울회생법원, 수원회생법원, 부산회생법원 등 도산 전문 법원의 선진적 실무 준칙 도입에 따라, 과거에 비해 자영업자에 대한 소득 및 재산 심사 기준이 정교해졌습니다. 특히 불필요한 서류 보정을 줄이고 신속한 결정을 내리는 실무 기조가 확산되고 있으나, 여전히 영업소득자는 장부 기입의 자율성으로 인해 급여소득자에 비해 정직한 매출액과 비용 증빙을 요구받는 경향이 짙습니다. 사전에 철저히 법리적 정비를 해두지 않으면 기각되거나 변제금액이 과도하게 산정되는 등의 불이익을 당할 수 있습니다.</p>
+
+    <h2 id="section2">2. 영업소득자의 개인회생 신청자격 및 조건 분석</h2>
+    <p>개인회생 신청을 원한다고 해서 누구나 법원의 허가를 받을 수 있는 것은 아닙니다. 법원이 요구하는 객관적인 기준을 완벽하게 충족해야만 사건 번호가 부여되고 금지명령이 내려집니다. 자영업자의 자격 요건은 크게 세 가지로 분류됩니다.</p>
+
+    <h3>2-1. 채무 규모 및 지급불능 상태의 입증</h3>
+    <p>신청인의 채무 총액이 최소 1,000만 원 이상이어야 하며, 법적으로 정해진 무담보채무 10억 원 이하, 담보부채무(근저당권, 질권 등) 15억 원 이하여야 합니다. 이 범위를 초과하는 경우에는 개인회생이 불가능하며 일반회생 또는 법인회생 절차를 밟아야 합니다. 또한 현재 소유하고 있는 부동산, 전세 보증금, 자동차, 예금 등의 자산 총액보다 채무 원리금의 합계액이 더 커야 하는 채무 초과 및 지급불능 상태여야 합니다.</p>
+
+    <h3>2-2. 반복적이고 확실한 영업소득의 존재</h3>
+    <p>가장 중요한 요건은 미래에 정기적이고 확실한 수입을 얻을 가능성이 입증되어야 한다는 점입니다. 급여소득자는 근로계약서나 급여명세서로 소득을 증빙하기에 수월하지만, 자영업자는 신용카드 매출 전표, 현금영수증 내역, 계좌 이체 거래 내역 등을 기초로 최근 1년 혹은 수년간의 종합적인 손익 흐름을 재구성하여 평균적인 월 소득을 산출해 내야 합니다. 신규 창업을 하여 운영 기간이 수개월 수준으로 짧은 사업자라 하더라도 일관된 영업 기록과 객관적인 매출 전망이 있다면 법원에 합리적인 소득 소명서를 제출하여 신청 자격을 얻을 수 있습니다.</p>
+
+    <h3>2-3. 면책 이력 및 성실성 확인</h3>
+    <p>과거에 동일하게 개인회생이나 파산 절차를 통해 채무를 면책받은 경험이 있다면, 면책 결정일로부터 최소 5년이 경과해야만 신규 접수가 가능합니다. 아울러 채무 발생 사유에 도박, 가상자산 투자, 해외 원정 관광 등 사행성 행위가 큰 비중을 차지하는 경우 원칙적으로 신청 자체는 가능하지만 변제율이 대폭 올라가거나 심사 과정이 매우 엄격해집니다.</p>
+
+    <h2 id="section3">3. 급여소득자 대 영업소득자: 실무상 존재하는 명확한 차이점</h2>
+    <p>법원이 직장인과 개인 사업자를 바라보는 시각과 심사 방식에는 아주 뚜렷한 차이점이 존재합니다. 이 차이를 명확하게 알지 못하면 보정 권고 단계에서 적절한 소명을 이행하지 못해 낭패를 보게 됩니다.</p>
+
+    <table border="1">
+      <thead>
+        <tr>
+          <th>구분 항목</th>
+          <th>급여소득자 (직장인, 아르바이트)</th>
+          <th>영업소득자 (자영업자, 소상공인, 프리랜서)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>소득의 성격</td>
+          <td>고정적이며 예측 가능성이 높음</td>
+          <td>계절적 요인, 경기 변동에 따라 유동적임</td>
+        </tr>
+        <tr>
+          <td>소득 증빙 서류</td>
+          <td>급여통장, 근로소득원천징수증, 재직증명서</td>
+          <td>부가세증명원, 종합소득세신고서, 카드매출내역, 장부</td>
+        </tr>
+        <tr>
+          <td>소득 산정 방식</td>
+          <td>실수령 급여의 최근 12개월 평균값</td>
+          <td>총매출액에서 사업 유지에 필요한 필수 영업비용 공제</td>
+        </tr>
+        <tr>
+          <td>재산(청산가치) 평가</td>
+          <td>부동산, 예적금, 보험 해약환급금 위주</td>
+          <td>매장 권리금, 사업장 임차보증금, 비품 및 재고 자산 포함</td>
+        </tr>
+        <tr>
+          <td>외부회생위원 선임</td>
+          <td>대부분 미선임 또는 서면 심사 위주</td>
+          <td>영업 실태 및 매출 누락 검증을 위해 선임 빈도 높음</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>급여소득자는 세무서와 직장에서 발급해 주는 정형화된 공문서만으로 소득 승인이 결정되는 반면, 자영업자는 총매출액에서 매출을 일으키기 위해 불가피하게 지출한 임대료, 원재료비, 종업원 급여, 공과금 등의 필요경비를 뺀 실제 순소득을 스스로 증명해야 합니다. 만약 필요경비로 주장한 지출 항목 중에서 개인적인 생활비 성격이나 증빙 자료가 없는 누락분이 발견될 경우, 법원은 해당 금액을 영업비용으로 인정하지 않고 소득으로 간주하여 결과적으로 매달 납부해야 하는 월 변제금을 상향 조정하게 됩니다.</p>
+
+    <h2 id="section4">4. 전국 지역별 법원 심사 성향과 2026년 실무 동향</h2>
+    <p>개인회생은 대법원 규칙 하에 진행되지만 구체적인 서류 심사와 보정 기준은 사건을 접수하는 지역별 관할 지방법원 및 회생법원에 따라 다소 상이합니다. 실무상 전국 주요 거점 법원들의 성향과 차이점을 숙지하는 것이 현명한 대응 전략 수립의 기본입니다.</p>
+
+    <p>우선 가장 진보적이고 채무자 친화적인 법원으로 평가받는 서울회생법원은 자영업자에 대한 회생 기회를 다각도로 보장하는 편입니다. 특히 20대와 30대 청년 자영업자들의 주식, 가상자산 투자 실패로 발생한 채무에 대해 청산가치에 반영하지 않도록 하는 특칙을 원활하게 운영하여 면책 속도가 신속합니다. 경기 이남 지역을 관할하는 수원회생법원과 영남권의 부산회생법원 역시 소상공인 재기 지원을 위해 전담 재판부를 확대 배정하여 인가율을 높이고 있습니다.</p>
+
+    <p>하지만 인천지방법원, 대구지방법원, 광주지방법원, 대전지방법원, 울산지방법원 및 세종 지역 등은 서울에 비해 보정 명령이 다소 까다롭게 내려지는 경향이 있습니다. 특히 가계 자금 대출을 사업 자금으로 우회하여 사용한 내역에 대해 매우 정밀한 자금 출처 추적 조사가 이루어집니다. 이외에도 강원, 충북, 충남, 전북, 전남, 경북, 경남, 제주 등의 지방 재판부들은 지역 상권의 평균 소득 수준을 감안하여 소득의 비현실적인 저평가 여부를 밀도 있게 확인하고 있습니다.</p>
+    
+    <p>경기도권의 신흥 상권이 위치한 수원, 고양, 용인, 성남, 부천, 화성, 안산, 남양주, 안양, 평택, 시흥, 파주, 의정부, 김포 등의 지역 소상공인들은 해당 관할지 법원의 특성을 명밀히 진단하여 보정 서류를 일목요연하게 정리해 제출할 필요가 있습니다. 예컨대 사업장 보증금의 보호 한도나 지방 정부의 저금리 대환 지원금 수령 여부가 개인회생 변제계획안 설계에 직접적인 영향을 줄 수 있습니다.</p>
+
+    <h2 id="section5">5. 예상 변제금 산정의 원리와 청산가치 보장의 원칙</h2>
+    <p>자영업자 개인회생의 핵심은 매월 법원에 납부하게 될 변제금액과 남은 원금의 몇 %를 감면받을 수 있을지 예측하는 일입니다. 이 일은 철저하게 공식적인 사법적 원리에 따라 작동합니다.</p>
+
+    <h3>5-1. 월 변제금 산정 공식</h3>
+    <div class="highlight-box">
+      <strong>월 변제금(가용소득) = 월 평균 순소득 - (가구원수별 인정 최저생계비)</strong>
+    </div>
+    <p>여기서 소득은 총매출액에서 공식적으로 인정받은 실제 사업 경비를 공제한 금액입니다. 가구원수별 최저생계비는 보건복지부가 고시하는 기준 중위소득의 60% 범위 내에서 결정되며, 부양가족의 범위는 주민등록등본에 기재된 동거 여부뿐 아니라 실제 부양 여부, 나이, 건강 상태, 소득 유무를 객관적으로 종합 평가하여 결정됩니다. 통상 20대에서 60대까지 경제 활동 인구는 부양가족 수 산정에서 특별한 사유가 없는 한 제외됩니다.</p>
+
+    <h3>5-2. 청산가치 보장의 원칙과 재산의 산정</h3>
+    <p>개인회생 절차를 통해 채권자들에게 변제할 총액의 현재가치는 신청인이 파산 신청을 하여 자신의 모든 재산을 처분한 뒤 나누어 줄 수 있는 가치인 청산가치보다 반드시 높아야만 합니다. 이를 '청산가치 보장의 원칙'이라고 부릅니다. 자영업자는 매장의 보증금(소액임차보증금 중 압류금지 금액은 제외), 영업용 기계설비, 제품 재고, 외상매출금 채권 등이 모두 개인 재산에 가산되므로 청산가치가 직장인에 비해 높게 산정되기 마련입니다. 만약 본인이 보유한 사업용 자산 가치가 총 5,000만 원으로 계산되었다면, 3년에서 5년 동안 법원에 갚아야 하는 총변제금의 가치는 최소한 5,000만 원 이상이 되어야만 변제계획안이 인가될 수 있습니다.</p>
+
+    <div class="alert-box">
+      <strong>자영업자 재산 산정 시 주의할 점:</strong><br>
+      사업장 권리금의 경우 실무상 거래 가치 산정이 불명확하여 통상 청산가치에서 제외되는 경우가 많으나, 세무회계상으로 확정된 무형자산이나 가시적인 양도양수 계약서가 존재한다면 청산가치에 반영될 수 있으므로 대리인과의 사전 면밀한 조율이 요망됩니다.
+    </div>
+
+    <!-- 시각화 영역: 변제금 책정 구조 모형 -->
+    <div class="graph-container">
+      <h3>월 영업소득 분배 구조 및 가용소득 모형 예시</h3>
+      <p>아래 차트는 월 매출 1,000만 원인 영업소득자의 소득 분배 및 최저생계비 제외 후 법원 변제금으로 귀속되는 가용소득의 전형적인 비율을 보여줍니다.</p>
+      
+      <div class="graph-bar-row">
+        <div class="graph-label"><span>사업 유지 필요경비 (임대료, 물건값, 직원 인건비 등): 65%</span><span>6,500,000원</span></div>
+        <div class="graph-bar-bg"><div class="graph-bar-fill" style="width: 65%; background-color: #94a3b8;"></div></div>
+      </div>
+      
+      <div class="graph-bar-row">
+        <div class="graph-label"><span>인정 가구원수별 최저생계비 (2인 가구 기준 중위 60% 내외): 23%</span><span>2,300,000원</span></div>
+        <div class="graph-bar-bg"><div class="graph-bar-fill" style="width: 23%; background-color: #64748b;"></div></div>
+      </div>
+      
+      <div class="graph-bar-row">
+        <div class="graph-label"><span>법원 월 납부 변제금 (가용소득): 12%</span><span>1,200,000원</span></div>
+        <div class="graph-bar-bg"><div class="graph-bar-fill" style="width: 12%; background-color: var(--primary-color);"></div></div>
+      </div>
+    </div>
+
+    <h2 id="section6">6. 자영업자 개인회생 조건 자가진단 및 예상 변제금 계산기</h2>
+    <p>개인회생 신청을 구체적으로 고민하기 전, 스스로 제도의 적격 요건을 충족하는지 가늠해 보는 일은 무분별한 상담 비용 낭비를 막는 좋은 방법입니다. 아래 자가진단 및 예상 계산 도구를 통해 대략적인 가능성을 점검해 보시기 바랍니다.</p>
+
+    <!-- 사용자 상호작용 도구 1: 자격 조건 자가진단 -->
+    <div class="form-section">
+      <h3>자가 진단: 나의 개인회생 신청 적격 여부 확인</h3>
+      <p>체크 항목에 본인의 현 상황을 정직하게 대입해 보시기 바랍니다.</p>
+      <div class="checkbox-group">
+        <div class="checkbox-item">
+          <input type="checkbox" id="check_debt_limit">
+          <label for="check_debt_limit">총 부채 규모가 무담보채무 10억 원 이하, 담보채무 15억 원 이하 범위에 해당합니다.</label>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="check_asset_compare">
+          <label for="check_asset_compare">소유하고 있는 부동산, 차량, 보증금 등 총 자산의 현재 시가 합산 금액보다 채무 원리금이 더 많습니다.</label>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="check_income_exist">
+          <label for="check_income_exist">현재 자영업, 소상공인 매장, 프리랜서 사업을 영위하고 있으며 정기적으로 입증 가능한 소득이 발생하고 있습니다.</label>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="check_reentry_limit">
+          <label for="check_reentry_limit">과거 개인회생이나 파산 선고를 통해 채무 면책을 결정받은 날로부터 최소 5년 이상 경과했거나 관련 이력이 전혀 없습니다.</label>
+        </div>
+      </div>
+      <button type="button" class="cta-button" onclick="diagnoseEligibility()">자격 조건 진단하기</button>
+      <div id="diag_result" class="result-box"></div>
+    </div>
+
+    <!-- 사용자 상호작용 도구 2: 예상 변제금 및 탕감률 간이 계산기 -->
+    <div class="form-section">
+      <h3>예상 변제금 및 채무 탕감률 자동 계산기</h3>
+      <p>법원이 공인하는 중위소득 기준을 기반으로 월 예상 변제 한도를 도출하는 모의 계산기입니다. 실제 심사 시 소득 소명 방식에 따라 차이가 있을 수 있습니다.</p>
+      
+      <div class="form-group">
+        <label for="input_revenue">1단계: 사업장 월 평균 총 매출액 (원 단위)</label>
+        <input type="number" id="input_revenue" placeholder="예: 8500000" required>
+      </div>
+
+      <div class="form-group">
+        <label for="input_expense">2단계: 사업용 필수 영업 경비 합계 (월별 임대료, 원자재비, 급여 등)</label>
+        <input type="number" id="input_expense" placeholder="예: 5500000" required>
+      </div>
+
+      <div class="form-group">
+        <label for="input_dependents">3단계: 부양가족 수 선택 (본인 제외, 무소득 직계존비속)</label>
+        <select id="input_dependents">
+          <option value="0">부양가족 없음 (1인 가구 신청)</option>
+          <option value="1">부양가족 1인 (2인 가구 신청)</option>
+          <option value="2">부양가족 2인 (3인 가구 신청)</option>
+          <option value="3">부양가족 3인 (4인 가구 신청)</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="input_total_debt">4단계: 현재 시점 총 채무액 합계 (원 단위)</label>
+        <input type="number" id="input_total_debt" placeholder="예: 75000000" required>
+      </div>
+
+      <div class="form-group">
+        <label for="input_assets">5단계: 본인 명의 총 보유 재산 평가액 (청산가치)</label>
+        <input type="number" id="input_assets" placeholder="예: 25000000" required>
+      </div>
+
+      <button type="button" class="cta-button" onclick="calculateRehabilitation()">모의 계산 및 견적 도출하기</button>
+      
+      <div id="calc_result" class="result-box"></div>
+    </div>
+
+    <h2 id="section7">7. 자영업자 개인회생의 장단점 및 대안 비교</h2>
+    <p>채무 한계를 극복하기 위해 제도를 신청하기에 앞서 개인회생이 지닌 법리적 장단점을 냉정하게 비교 분석해 보아야 합니다. 신용회복위원회의 임의적 채무조정(프리워크아웃, 개인워크아웃)이나 아예 사업을 포기하고 신청하는 개인파산 제도와의 장단점 차이점 역시 핵심 고려 대상입니다.</p>
+
+    <h3>7-1. 개인회생 제도의 장점</h3>
+    <ul>
+      <li>법원의 중지 및 금지명령을 통해 채무독촉, 가압류, 압류, 강제경매 등의 법적 절차로부터 신속하게 벗어나 안정적인 가계 유지가 가능합니다.</li>
+      <li>신용회복위원회 채무조정과 달리 은행권 부채뿐만 아니라 보증기관 채무, 대부업체, 사채, 거래처 상거래 대금, 그리고 체납된 국세나 부가가치세, 4대 보험료 등 거의 모든 종류의 채무를 포괄하여 조정할 수 있습니다.</li>
+      <li>채무 원금을 최대 90%까지 감면받을 수 있으며 이자는 전액 면제받는 혜택이 주어집니다.</li>
+      <li>파산 절차와 달리 공무원, 교사, 의사, 기업 임원 등의 법적 자격을 온전히 유지할 수 있어 생업에 전혀 지장을 주지 않습니다.</li>
+    </ul>
+
+    <h3>7-2. 개인회생 제도의 단점</h3>
+    <ul>
+      <li>법원 신청일로부터 최종 인가 및 면책을 받기까지 신용 정보망에 공공정보(개인회생)가 등록되므로 신용카드 사용, 신규 대출 및 신용 거래가 제한됩니다.</li>
+      <li>영업 실태와 매출, 비용 지출 내역을 매달 꼼꼼하게 소명하고 보고해야 하므로 서류 준비 절차가 상당히 번거롭고 시간이 소요됩니다.</li>
+      <li>매달 결정된 고정 변제금을 36개월간 체납 없이 성실히 납부해야 하므로 지속적인 자금 관리가 요구되며, 3회 이상 미납할 경우 회생 절차가 폐지될 위험이 존재합니다.</li>
+    </ul>
+
+    <h2 id="section8">8. 진행 비용 분석 및 합리적인 법률 대리인 선정 기준</h2>
+    <p>개인회생 신청에는 법원 공과금과 전문가 선임에 따른 법적 대리 비용이 발생합니다. 자영업자들은 불필요한 금전적 지출을 막기 위해 비용의 정확한 산정 방식을 인지하고 있어야 합니다.</p>
+
+    <h3>8-1. 법원 기본 공과금 구성</h3>
+    <p>정부 법원에 제출할 때 필요한 수수료 격인 정부 수입인지대와 송달을 위한 송달료가 부과됩니다. 수입인지대는 종이 신청 시 30,000원이며 인터넷 전자소송 사이트를 이용할 시에는 10% 할인이 적용되어 27,000원입니다. 송달료는 기본 송달 금액에 채권자 수에 비례하여 부과되며, 채권자가 5곳일 경우 약 20만 원 내외의 납부 고지서가 발급됩니다. 아울러 자영업자의 경우 장부 및 매출 신빙성 검증을 전담하는 외부회생위원이 배정되는 경우가 많은데, 이 경우 약 15만 원의 외부회생위원 보수 비용을 예납해야 합니다.</p>
+
+    <h3>8-2. 변호사 및 법무사 수임료와 최적의 선택 전략</h3>
+    <p>시중의 개인회생 전문 법률 대행 업체들의 대리 비용 가격은 평균적으로 150만 원에서 250만 원 사이로 책정되어 있습니다. 채권자 수의 규모나 사행성 유무, 사업체의 규모에 따라 변동폭이 있습니다. 일부 인터넷 사이트 광고에서는 수임료가 파격적으로 싼곳이나 제일 저렴한곳을 전면에 앞세우며 할인 이벤트, 사은품 지급, 신규 가입 혜택, 현금지원이나 상품권 증정 같은 유인성 마케팅을 펼치기도 합니다. 그러나 도산법 전문성이 현격히 떨어지는 사무소에 사건을 일임할 경우, 소득 금액 방어에 실패하여 결과적으로 매달 납부할 변제금이 수십만 원 이상 높게 책정될 우려가 다분합니다.</p>
+    
+    <p>따라서 단순 수임료 견적 비교에만 매몰되기보다 법원에 성실하게 보정을 수행할 실력을 갖추었는지, 분납 제도를 명확히 제공하여 초기 가용 비용 부담을 최소화해 주는지 등을 따져보아야 합니다. 많은 도산 전문 로펌들은 자영업자의 한계 상황을 배려해 수임료 3~6개월 무이자 카드 결제나 분납 이벤트를 제공하고 있습니다.</p>
+
+    <h2 id="section9">9. 인터넷 온라인 커뮤니티 및 소셜 미디어 여론 동향</h2>
+    <p>많은 30대 및 40대 자영업자들은 신용 관리에 위기를 느끼기 시작하면 제일 먼저 인터넷 정보 바다를 탐색합니다. 네이버 지식인이나 구글 검색을 거쳐 유튜브 실무 해설 영상을 시청하고, 인스타그램, 페이스북, 트위터 같은 소셜 미디어에 공유된 요약 카드를 참고하는 경향을 보입니다. 최근에는 자산관리 종합 모바일 앱인 토스 내의 신용 관리 서비스나 카카오톡 채널 등을 통한 실시간 연동 간편 상담 서비스를 이용하기도 합니다. 심지어 최신 생성형 AI인 제미나이(Gemini), 챗지피티(ChatGPT)를 활용해 "개인회생 자산 산정 시 소액임차보증금의 면제 한도"와 같은 고도의 법률적 정보를 질문하여 예비 지식을 쌓아두는 지혜로운 사업자들도 늘어나는 추세입니다.</p>
+
+    <p>또한, 주 이용 자영업자들이 상주하는 유명 커뮤니티인 디시인사이드(디시) 개인회생 갤러리, 보배드림 자영업 게시판, 그리고 에펨코리아(펨코) 등의 일상 소통망에서 실시간으로 공유되는 '내돈내산 후기'나 성공 사례들을 교차 비교하는 행동 양상도 보입니다. 해당 게시판들에서는 "단순히 수임료 가격이 싼곳이나 다이렉트 자장식 대리인을 찾아갔다가 보정이 밀려 기각되어 면책 지원금이나 신청 비용만 날렸다"는 등의 솔직한 조언과 "본인 지역 소득 인정 기준을 명료하게 계산해 준 법률 컨설팅 전문 업체를 찾아가야 한다"는 등의 현실감 넘치는 후기들을 발견할 수 있습니다.</p>
+
+    <h2 id="section10">10. 자영업자 개인회생 자주 묻는 질문 FAQ</h2>
+    
+    <div class="highlight-box">
+      <strong>Q1. 세금이나 부가가치세가 체납되어 있는데 이것도 개인회생 채권에 포함되나요?</strong><br>
+      A. 네, 포함이 가능합니다. 국세, 지방세, 부가가치세, 건강보험료 등 우선변제 청구권이 있는 채권도 개인회생 채권 목록에 올려 탕감받을 수 있습니다. 다만 조세 채권은 일반 신용대출 채권과 달리 '우선 채권'으로 분류되어 전체 변제 기간 동안 세금 체납액의 전액이 우선적으로 상환되도록 변제 계획을 짜야 합니다. 이 때문에 세금 체납액이 지나치게 많은 경우 매월 납부해야 하는 변제 금액이 급격히 증가할 수 있습니다.
+    </div>
+
+    <div class="highlight-box">
+      <strong>Q2. 개인회생을 진행하는 동안 기존에 하던 장사나 매장 영업을 계속할 수 있나요?</strong><br>
+      A. 네, 당연히 가능합니다. 개인회생은 파산 절차와 달리 신청자가 생업을 유지하면서 벌어들이는 미래의 소득을 재원으로 채무를 변제해 나가는 제도입니다. 영업 활동을 중단하게 되면 오히려 회생 조건인 '영업소득자로서의 자격'이 상실되므로 매장을 성실히 운영하며 지속해서 수입을 창출하는 상태여야 합니다.
+    </div>
+
+    <div class="highlight-box">
+      <strong>Q3. 신용카드로 물건 대금을 결제하거나 가입 중인 대출 이자를 정상 상환하는 것은 언제 중단해야 하나요?</strong><br>
+      A. 법원에 개인회생 신청 서류를 접수함과 동시에 통상 채권자들에 대한 변제 및 채무 상환 행위를 전면 중단하게 됩니다. 신청서 제출과 함께 '금지명령'을 신청하게 되며, 명령이 접수 및 송달되면 채권자들은 신청인에게 무리한 상환 독촉이나 가압류를 걸 수 없게 됩니다. 독촉 압박에서 벗어난 기간 동안 성실히 변제 재원을 모으고 매장 운영에 집중하는 것이 회생을 순탄하게 이끄는 지름길입니다.
+    </div>
+
+    <!-- 외부 신뢰성 확보 공식 외부 사이트 목록 (5개 이상 필수 링크) -->
+    <div class="external-links">
+      <p><strong>공식 정보 및 법적 안내 참고 자료:</strong></p>
+      <a href="https://recoverybylawd.koreahankang.com" target="_blank">사법 제도 및 법률 구제 종합 안내소</a>
+      <a href="https://ecfs.scourt.go.kr" target="_blank">대한민국 법원 전자소송 시스템</a>
+      <a href="https://www.ccrs.or.kr" target="_blank">신용회복위원회 공식 웹사이트</a>
+      <a href="https://www.klac.or.kr" target="_blank">대한법률구조공단 가이드</a>
+      <a href="https://www.gov.kr" target="_blank">대한민국 정부24 통합 행정 포털</a>
+      <a href="https://namu.wiki/w/%EA%B0%9C%EC%9D%B8%ED%9A%8C%EC%83%9D" target="_blank">나무위키 - 개인회생 상세 정의</a>
+    </div>
+
+  </div>
+
+  <script>
+    // 자가 진단 판별 로직
+    function diagnoseEligibility() {
+      const q1 = document.getElementById('check_debt_limit').checked;
+      const q2 = document.getElementById('check_asset_compare').checked;
+      const q3 = document.getElementById('check_income_exist').checked;
+      const q4 = document.getElementById('check_reentry_limit').checked;
+
+      const resultBox = document.getElementById('diag_result');
+      resultBox.style.display = 'block';
+
+      let score = 0;
+      if (q1) score++;
+      if (q2) score++;
+      if (q3) score++;
+      if (q4) score++;
+
+      if (score === 4) {
+        resultBox.style.borderColor = 'var(--success-color)';
+        resultBox.style.backgroundColor = '#ecfdf5';
+        resultBox.innerHTML = `
+          <strong style="color: var(--success-color); font-size: 1.1em;">자가진단 결과: 신청 자격 유력</strong><br>
+          <p style="margin-top: 10px; font-size: 0.95em; color: #065f46;">
+            선택하신 모든 조건이 현재 개인회생 자격 요건에 부합합니다. 특히 채무 한도 준수, 채무 초과 여부, 안정적 영업소득 유지 등 핵심 요건을 갖추신 상태로 보입니다. 보다 정확한 검토를 위해 공식 법률사무소의 사전 컨설팅을 권장합니다.
+          </p>
+        `;
+      } else if (score >= 2) {
+        resultBox.style.borderColor = 'var(--accent-color)';
+        resultBox.style.backgroundColor = '#fffbeb';
+        resultBox.innerHTML = `
+          <strong style="color: var(--accent-color); font-size: 1.1em;">자가진단 결과: 심층 보완 분석 필요</strong><br>
+          <p style="margin-top: 10px; font-size: 0.95em; color: #78350f;">
+            현재 일부 조건(예: 소득 증빙의 불확실성 혹은 부채 한도 범위 초과 우려)에서 모호한 지점이 발견됩니다. 영업소득자의 소득 산정은 장부나 과거 매출 내역에 따라 입증이 가능할 수도 있으니, 포기하지 마시고 전문 대리인을 통해 정밀 소명 방안을 상담받아 보시기 바랍니다.
+          </p>
+        `;
+      } else {
+        resultBox.style.borderColor = '#ef4444';
+        resultBox.style.backgroundColor = '#fef2f2';
+        resultBox.innerHTML = `
+          <strong style="color: #b91c1c; font-size: 1.1em;">자가진단 결과: 현재 요건상 진행 애로</strong><br>
+          <p style="margin-top: 10px; font-size: 0.95em; color: #991b1b;">
+            체무액보다 재산이 더 많거나, 지속적인 영업 수입을 증명할 방법이 없는 경우 개인회생 신청이 기각될 가능성이 대단히 높습니다. 채무 조정이 전혀 불가능한 것은 아니니, 신용회복위원회의 지원 제도나 일시적인 경영 구조 조정을 대안으로 검토하시기 바랍니다.
+          </p>
+        `;
+      }
+    }
+
+    // 변제금 모의 계산 로직
+    function calculateRehabilitation() {
+      const revenue = parseFloat(document.getElementById('input_revenue').value);
+      const expense = parseFloat(document.getElementById('input_expense').value);
+      const dependents = parseInt(document.getElementById('input_dependents').value);
+      const totalDebt = parseFloat(document.getElementById('input_total_debt').value);
+      const assets = parseFloat(document.getElementById('input_assets').value);
+
+      const resultBox = document.getElementById('calc_result');
+
+      if (isNaN(revenue) || isNaN(expense) || isNaN(totalDebt) || isNaN(assets)) {
+        alert("모든 입력란에 정확한 숫자를 기입해 주십시오.");
+        return;
+      }
+
+      // 월 영업소득(순소득) 계산
+      const monthlyIncome = revenue - expense;
+
+      if (monthlyIncome <= 0) {
+        resultBox.style.display = 'block';
+        resultBox.style.borderColor = '#ef4444';
+        resultBox.style.backgroundColor = '#fef2f2';
+        resultBox.innerHTML = `
+          <strong style="color: #b91c1c;">계산 불가 안내: 순소득 마이너스</strong><br>
+          <p style="margin-top: 10px; color: #991b1b; font-size: 0.95em;">
+            현재 계산된 월 평균 순소득이 0원 이하입니다. 매출액보다 필수 운영 경비가 더 큰 상태라면 변제 재원 마련이 불가하여 개인회생 진행이 어렵습니다. 이 경우 영업비용을 신속하게 줄이거나, 업종 전환 소득을 증빙하거나, 혹은 전면 폐업 후 개인파산 면책 절차를 밟는 편이 타당합니다.
+          </p>
+        `;
+        return;
+      }
+
+      // 2026년 가구원수별 최저생계비 기준 설정 (기준 중위소득 60% 가산선 추정치)
+      const familySize = dependents + 1;
+      let minLivingCost = 0;
+      switch (familySize) {
+        case 1: minLivingCost = 1380000; break;
+        case 2: minLivingCost = 2330000; break;
+        case 3: minLivingCost = 2980000; break;
+        case 4: minLivingCost = 3590000; break;
+        default: minLivingCost = 4180000;
+      }
+
+      // 월 기본 가용소득 계산
+      let monthlyRepayment = monthlyIncome - minLivingCost;
+
+      if (monthlyRepayment <= 0) {
+        resultBox.style.display = 'block';
+        resultBox.style.borderColor = '#d97706';
+        resultBox.style.backgroundColor = '#fffbeb';
+        resultBox.innerHTML = `
+          <strong style="color: #b45309;">소득 수준 부족 상태 안내</strong><br>
+          <p style="margin-top: 10px; color: #78350f; font-size: 0.95em;">
+            귀하의 월 순소득(${monthlyIncome.toLocaleString()}원)이 가구원수별 인정 최저생계비(${minLivingCost.toLocaleString()}원)에 미치지 못하고 있습니다. 법률 규정상 개인회생을 위해서는 생계비 이상의 소득 보전이 필수적이므로, 부양가족 수를 좁혀 신청하거나 영업 효율 개선을 도모해 소득 소명액을 높인 후 재계산하시기 바랍니다.
+          </p>
+        `;
+        return;
+      }
+
+      // 36개월 기준 총 변제 예정액 산출 및 청산가치 보장의 원칙 확인
+      let period = 36;
+      let totalRepayment = monthlyRepayment * period;
+
+      // 만약 36개월 총 변제금이 보유 자산가치(청산가치)보다 작다면 변제금 강제 상향 조정
+      if (totalRepayment < assets) {
+        totalRepayment = assets;
+        monthlyRepayment = Math.ceil(totalRepayment / period);
+        
+        // 상향 조정된 변제금이 실제 월 순소득을 넘어서는 경우, 변제 기간을 최대 60개월로 연장 처리
+        if (monthlyRepayment > monthlyIncome) {
+          period = 60;
+          monthlyRepayment = Math.ceil(assets / period);
+          totalRepayment = monthlyRepayment * period;
+        }
+      }
+
+      // 총 변제금이 채무 총액을 초과할 수 없도록 한계 제어
+      if (totalRepayment > totalDebt) {
+        totalRepayment = totalDebt;
+        monthlyRepayment = Math.ceil(totalRepayment / period);
+      }
+
+      // 결과값 연산 도출
+      const reliefAmount = totalDebt - totalRepayment;
+      const reliefRate = ((reliefAmount / totalDebt) * 100).toFixed(1);
+
+      resultBox.style.display = 'block';
+      resultBox.style.borderColor = 'var(--primary-color)';
+      resultBox.style.backgroundColor = '#f0f4f8';
+      resultBox.innerHTML = `
+        <strong style="color: var(--primary-color); font-size: 1.1em;">간이 시뮬레이션 예상 결과</strong><br>
+        <table style="width: 100%; margin: 15px 0; font-size: 0.9em; background-color: #ffffff;">
+          <tr><td>월 평균 영업 순소득</td><td><strong>${monthlyIncome.toLocaleString()} 원</strong></td></tr>
+          <tr><td>인정 적용 생계비</td><td>${minLivingCost.toLocaleString()} 원 (${familySize}인 가구 기준)</td></tr>
+          <tr><td><strong>예상 월 변제금</strong></td><td><strong style="color: #b91c1c;">${monthlyRepayment.toLocaleString()} 원</strong></td></tr>
+          <tr><td>예정 변제 기간</td><td>${period} 개월</td></tr>
+          <tr><td>3년~5년 총 납부액</td><td>${totalRepayment.toLocaleString()} 원</td></tr>
+          <tr><td><strong>예상 채무 탕감액</strong></td><td><strong style="color: var(--success-color);">${reliefAmount.toLocaleString()} 원</strong></td></tr>
+          <tr><td><strong>예상 원금 탕감률</strong></td><td><strong style="color: var(--success-color); font-size: 1.2em;">${reliefRate}%</strong></td></tr>
+        </table>
+        <p style="font-size: 0.88em; color: #556b2f; margin: 0; line-height: 1.6;">
+          ※ 본 진단은 입력된 수치만을 기초로 하여 계산된 가상의 견적 결과물입니다. 사업장의 실제 재산 가액(청산가치) 반영 비율 및 보정 과정에서의 부양가족 수 공제 타당성 소명 등에 따라 실제 최종 법원 판정 금액과는 일정한 차이가 발생할 수 있습니다.
+        </p>
+      `;
+    }
+  </script>
+  
